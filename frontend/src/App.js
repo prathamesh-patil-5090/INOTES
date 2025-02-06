@@ -7,6 +7,7 @@ import PrivateRoute from './components/router/route';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Notes from './components/notes/Notes';
 import Profile from './components/profile/Profile'; 
+import NotesProvider from './hooks/NotesProvider';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Router>
         <NavBar />
         <AuthProvider>
+          <NotesProvider>
           <Routes>
             <Route path='/' element={<Register />}/>
             <Route path='/login' element={<Login />}/>
@@ -23,6 +25,7 @@ function App() {
             </Route>
             {/* Other routes */}
           </Routes>
+          </NotesProvider>
         </AuthProvider>
       </Router>
     </div>
