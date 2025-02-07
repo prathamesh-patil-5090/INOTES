@@ -8,7 +8,7 @@ const NotesProvider = ({children}) => {
     
     const getNotes = async(data) => {
         try{
-            const response = await fetch("http://localhost:5000/api/auth/register",{
+            const response = await fetch("http://localhost:5000/api/notes/get-notes",{
                 method: "GET",
                 headers:{
                     "Authorization": `Bearer ${localStorage.getItem("site")}`,
@@ -18,7 +18,7 @@ const NotesProvider = ({children}) => {
             const res = await response.json();
             if(res){
                 console.log(res);
-                setNotes(res.data);
+                setNotes(res);
                 return;
             }
             throw new Error(res.message);
@@ -39,7 +39,7 @@ const NotesProvider = ({children}) => {
             });
             const res = await response.json();
             if(res){
-                setNotes(res.data);
+                setNotes(res);
                 return;
             }
             throw new Error(res.message);
@@ -59,7 +59,7 @@ const NotesProvider = ({children}) => {
                 body: JSON.stringify({ title, content, tag})
             });
             const json = await response.json();
-            
+            console.log(json);
             let newNotes = JSON.parse(JSON.stringify(notes));
             if (newNotes && newNotes.length) {
                 for (let index = 0; index < newNotes.length; index++) {

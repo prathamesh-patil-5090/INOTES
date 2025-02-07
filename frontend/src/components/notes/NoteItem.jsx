@@ -13,21 +13,15 @@ const NoteItem = (props) => {
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           {note.title}
         </h5>
-        <i
-          className="far fa-trash-alt mx-2"
-          onClick={() => {
-            deleteNote(note._id);
-          }}
-        ></i>
-        <i
-          className="far fa-edit mx-2"
-          onClick={() => {
-            updateNote(note);
-          }}
-        ></i>
         <p className="font-normal text-gray-700 dark:text-gray-400">
           {note.content}
         </p>
+        <button type="button" onClick={() => {
+            updateNote(note);
+          }} >Edit</button>
+        <button type="button" onClick={() => {
+            deleteNote(note._id);
+          }} >Delete</button>
       </a>
     </div>
   );
