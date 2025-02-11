@@ -14,6 +14,16 @@ function classNames(...classes) {
 
 export default function NavBar() {
   const auth = useAuth();
+  
+  const handleSignOut = async (e) => {
+    e.preventDefault();
+    try {
+      await auth.logOut();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -89,13 +99,12 @@ export default function NavBar() {
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <a
-                    href="/"
-                    className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
-                    onClick={() => auth.logOut()}
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:outline-none"
+                    onClick={handleSignOut}
                   >
                     Sign out
-                  </a>
+                  </button>
                 </MenuItem>
               </MenuItems>
             </Menu>

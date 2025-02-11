@@ -13,8 +13,8 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <NavBar />
         <AuthProvider>
+          <NavBar />
           <NotesProvider>
           <Routes>
             <Route path='/' element={<Register />}/>

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -55,19 +55,41 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    const logOut = () => {
-        setUser(null);
-        setToken("");
-        localStorage.removeItem("site");
-        navigate("/");
-    }
-    return <AuthContext.Provider value={{ token, user, loginAction, logOut, registerAction }}>
-        {children}
+    const logOut = async () => {
+        try {
+            setUser(null);
+            setToken("");
+            localStorage.removeItem("site");
+            navigate("/");
+        } catch (error) {
+            console.error("Logout failed:", error);
+            // Fallback cleanup
+            localStorage.removeItem("site");
+            window.location.href = "/";
+        }
+    };
+
+    const value = {
+        token,
+        user,
+        loginAction,
+        logOut,
+        registerAction
+    };
+
+    return (
+        <AuthContext.Provider value={value}>
+            {children}
         </AuthContext.Provider>
+    );
 };
 
 export default AuthProvider;
 
 export const useAuth = () => {
-    return useContext(AuthContext);
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+    return context;
 };
